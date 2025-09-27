@@ -34,5 +34,5 @@ jobs:
       - name: Run miner for 5.5 hours
         run: |
           echo "开始挖矿 (最多 5.5 小时)"
-          timeout 19800 python3 miner.py || true
+          timeout 19800 python3 PC_Miner.py || true
           echo "本轮结束，等待下一个调度自动运行"
