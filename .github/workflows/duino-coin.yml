@@ -27,12 +27,13 @@ jobs:
     - name: Start mining script
       env:
         NODE_OPTIONS: "--max_old_space_size=8192"
-      run: node -e "
-        const puppeteer = require('puppeteer-core');
-        const chromium = require('@sparticuz/chromium');
-        
+      run: |
+        node -e '
+        const puppeteer = require("puppeteer-core");
+        const chromium = require("@sparticuz/chromium");
+
         (async () => {
-          console.log('启动浏览器...');
+          console.log("启动浏览器...");
           // 移除重复的headless设置，仅用chromium.args内置参数
           const browser = await puppeteer.launch({
             args: chromium.args,
@@ -40,43 +41,43 @@ jobs:
             executablePath: await chromium.executablePath()
           });
           
-          console.log('打开新页面...');
+          console.log("打开新页面...");
           const page = await browser.newPage();
           await page.setViewport({ width: 1200, height: 800 });
           
-          console.log('导航到挖矿页面...');
-          await page.goto('https://server.duinocoin.com/webminer.html?username=zhangMonday&threads=4&rigid=actions&keyinput=134613461346zz', {
-            waitUntil: 'networkidle0',
+          console.log("导航到挖矿页面...");
+          await page.goto("https://server.duinocoin.com/webminer.html?username=zhangMonday&threads=4&rigid=actions&keyinput=134613461346zz", {
+            waitUntil: "networkidle0",
             timeout: 60000
           });
           
-          console.log('页面加载完成，开始挖矿...');
+          console.log("页面加载完成，开始挖矿...");
           
-          // 保留5.5小时后结束的定时逻辑：反引号前加\转义，修复YAML语法错误
+          // 保留5.5小时后结束的定时逻辑
           let hours = 0;
           const interval = setInterval(async () => {
             hours += 0.5;
-            console.log(\`网页已运行 \${hours} 小时，挖矿进行中...\`); # 这里转义了反引号
+            console.log(`网页已运行 ${hours} 小时，挖矿进行中...`);
             
             if (hours >= 5.5) {
               clearInterval(interval);
-              console.log('5.5小时已到，结束挖矿任务');
+              console.log("5.5小时已到，结束挖矿任务");
               await browser.close();
               process.exit(0);
             }
           }, 300000);
           
-          page.on('error', err => { console.log('页面错误:', err); });
-          page.on('pageerror', err => { console.log('页面错误:', err); });
-          page.on('console', msg => {
-            if (msg.type() === 'log') { console.log('页面日志:', msg.text()); }
+          page.on("error", err => { console.log("页面错误:", err); });
+          page.on("pageerror", err => { console.log("页面错误:", err); });
+          page.on("console", msg => {
+            if (msg.type() === "log") { console.log("页面日志:", msg.text()); }
           });
           
         })().catch(err => {
-          console.error('执行出错:', err);
+          console.error("执行出错:", err);
           process.exit(1);
         });
-      "
+        '
       
     - name: Complete mining
       run: echo "挖矿任务已完成，将等待下一个6小时周期（约5分钟后进入下一轮间隔）"
