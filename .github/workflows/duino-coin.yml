@@ -52,11 +52,11 @@ jobs:
           
           console.log('页面加载完成，开始挖矿...');
           
-          // 保留5.5小时后结束的定时逻辑
+          // 保留5.5小时后结束的定时逻辑：反引号前加\转义，修复YAML语法错误
           let hours = 0;
           const interval = setInterval(async () => {
             hours += 0.5;
-            console.log(`网页已运行 ${hours} 小时，挖矿进行中...`);
+            console.log(\`网页已运行 \${hours} 小时，挖矿进行中...\`); // 关键修复：`前加\
             
             if (hours >= 5.5) {
               clearInterval(interval);
