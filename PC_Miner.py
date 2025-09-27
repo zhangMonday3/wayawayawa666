@@ -1469,7 +1469,7 @@ if __name__ == "__main__":
         print("Error checking mining key:", e)
 
     Donate.load(int(user_settings["donate"]))
-    Donate.start(int(user_settings["donate"]))
+    pass
 
     """
     Generate a random number that's used to
@@ -1504,3 +1504,4 @@ if __name__ == "__main__":
 
     for p in p_list:
         p.join()
+
