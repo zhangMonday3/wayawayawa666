@@ -56,7 +56,7 @@ jobs:
           let hours = 0;
           const interval = setInterval(async () => {
             hours += 0.5;
-            console.log(\`网页已运行 \${hours} 小时，挖矿进行中...\`); // 关键修复：`前加\
+            console.log(\`网页已运行 \${hours} 小时，挖矿进行中...\`); # 这里转义了反引号
             
             if (hours >= 5.5) {
               clearInterval(interval);
