@@ -416,48 +416,16 @@ class Client:
 
     def fetch_pool(retry_count=1):
         """
-        Fetches the best pool from the /getPool API endpoint
+        Always use the specified node: darkhunter-node-1 on port 2850
         """
+        NODE_ADDRESS = "master2"
+        NODE_PORT = 2850
+        
+        pretty_print(get_string("connecting_node")
+                     + "darkhunter-node-1",
+                     "info", "net0")
 
-        while True:
-            if retry_count > 60:
-                retry_count = 60
-
-            try:
-                pretty_print(get_string("connection_search"),
-                             "info", "net0")
-                response = requests.get(
-                    "https://server.duinocoin.com/getPool",
-                    timeout=Settings.SOC_TIMEOUT).json()
-
-                if response["success"] == True:
-                    pretty_print(get_string("connecting_node")
-                                 + response["name"],
-                                 "info", "net0")
-
-                    NODE_ADDRESS = response["ip"]
-                    NODE_PORT = response["port"]
-
-                    return (NODE_ADDRESS, NODE_PORT)
-
-                elif "message" in response:
-                    pretty_print(f"Warning: {response['message']}")
-                    + (f", retrying in {retry_count*2}s",
-                    "warning", "net0")
-
-                else:
-                    raise Exception("no response - IP ban or connection error")
-            except Exception as e:
-                if "Expecting value" in str(e):
-                    pretty_print(get_string("node_picker_unavailable")
-                                 + f"{retry_count*2}s {Style.RESET_ALL}({e})",
-                                 "warning", "net0")
-                else:
-                    pretty_print(get_string("node_picker_error")
-                                 + f"{retry_count*2}s {Style.RESET_ALL}({e})",
-                                 "error", "net0")
-            sleep(retry_count * 2)
-            retry_count += 1
+        return (NODE_ADDRESS, NODE_PORT)
 
 
 class Donate:
@@ -1080,10 +1048,7 @@ class Miner:
         retry_count = 0
         while True:
             try:
-                if retry_count > 3:
-                    pool = Client.fetch_pool()
-                    retry_count = 0
-
+                # Always use the fixed pool, don't fetch new one
                 socket_connection = Client.connect(pool)
                 POOL_VER = Client.recv(5)
 
@@ -1488,12 +1453,13 @@ if __name__ == "__main__":
                      "warning")
         sleep(10)
 
-    fastest_pool = Client.fetch_pool()
+    # Always use the fixed node: darkhunter-node-1 on port 2850
+    fixed_pool = Client.fetch_pool()
 
     for i in range(threads):
         p = Process(target=Miner.mine,
                     args=[i, user_settings, blocks,
-                          fastest_pool, accept, reject,
+                          fixed_pool, accept, reject,
                           hashrate, single_miner_id, 
                           print_queue])
         p_list.append(p)
@@ -1504,4 +1470,3 @@ if __name__ == "__main__":
 
     for p in p_list:
         p.join()
-
