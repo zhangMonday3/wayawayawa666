@@ -1,0 +1,97 @@
+name: wayawa
+
+on:
+  workflow_dispatch: # 允许手动触发
+  schedule:
+    # 每 6 小时运行一次 (5.5小时运行 + 0.5小时等待)
+    - cron: '0 */6 * * *'
+
+jobs:
+  mine:
+    runs-on: ubuntu-latest
+    timeout-minutes: 330 # 5.5小时超时设置
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        
+    - name: Install dependencies
+      run: |
+        npm install puppeteer-core
+        # 安装系统依赖（包括Chromium）
+        sudo apt-get update
+        sudo apt-get install -y chromium-browser
+        
+    - name: Start mining script
+      env:
+        NODE_OPTIONS: "--max_old_space_size=8192"
+      run: node -e "
+        const puppeteer = require('puppeteer-core');
+        const chromium = require('@sparticuz/chromium');
+        
+        (async () => {
+          console.log('启动浏览器...');
+          const browser = await puppeteer.launch({
+            args: chromium.args,
+            defaultViewport: chromium.defaultViewport,
+            executablePath: await chromium.executablePath(),
+            headless: chromium.headless,
+          });
+          
+          console.log('打开新页面...');
+          const page = await browser.newPage();
+          
+          // 设置视口大小
+          await page.setViewport({ width: 1200, height: 800 });
+          
+          console.log('导航到挖矿页面...');
+          await page.goto('https://server.duinocoin.com/webminer.html?username=zhangMonday&threads=4&rigid=actions&keyinput=134613461346zz', {
+            waitUntil: 'networkidle0',
+            timeout: 60000
+          });
+          
+          console.log('页面加载完成，开始挖矿...');
+          
+          // 定期记录状态，防止 GitHub Actions 超时
+          let hours = 0;
+          const interval = setInterval(async () => {
+            hours += 0.5;
+            console.log(\`网页已运行 \${hours} 小时，挖矿进行中...\`);
+            
+            if (hours >= 5.5) {
+              clearInterval(interval);
+              console.log('5.5小时已到，结束挖矿任务');
+              await browser.close();
+              process.exit(0);
+            }
+          }, 300000); // 每30分钟报告一次
+          
+          // 处理页面错误
+          page.on('error', err => {
+            console.log('页面错误:', err);
+          });
+          
+          page.on('pageerror', err => {
+            console.log('页面错误:', err);
+          });
+          
+          // 监听控制台输出
+          page.on('console', msg => {
+            if (msg.type() === 'log') {
+              console.log('页面日志:', msg.text());
+            }
+          });
+          
+        })().catch(err => {
+          console.error('执行出错:', err);
+          process.exit(1);
+        });
+      "
+      
+    - name: Complete mining
+      run: echo "挖矿任务已完成，5分钟后将开始新一轮"
