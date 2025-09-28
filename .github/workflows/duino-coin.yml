@@ -1,4 +1,4 @@
-name: DuinoCoin Miner
+name: DuinoCoin WAKUANG
 
 on:
   schedule:
@@ -31,7 +31,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests colorama
 
-      - name: Run miner for 5.5 hours
+      - name: Run for 5.5 hours
         run: |
           echo "开始挖矿 (最多 5.5 小时)"
           timeout 19800 python3 PC_Miner.py || true
