@@ -15,7 +15,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  mine:
+  # 第一个
+  worker-1:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -33,6 +34,29 @@ jobs:
 
       - name: Run for 5.5 hours
         run: |
-          echo "开始挖矿 (最多 5.5 小时)"
+          echo "开始挖矿 #1 (最多 5.5 小时)"
+          timeout 19800 python3 PC_Miner.py || true
+          echo "本轮结束，等待下一个调度自动运行"
+
+  # 第二个任务，与第一个并行运行
+  worker-2:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests colorama
+
+      - name: Run for 5.5 hours
+        run: |
+          echo "开始挖矿 #2 (最多 5.5 小时)"
           timeout 19800 python3 PC_Miner.py || true
           echo "本轮结束，等待下一个调度自动运行"
