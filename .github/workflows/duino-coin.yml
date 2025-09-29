@@ -60,3 +60,72 @@ jobs:
           echo "开始挖矿 #2 (最多 5.5 小时)"
           timeout 19800 python3 PC_Miner.py || true
           echo "本轮结束，等待下一个调度自动运行"
+
+  # 第三个任务，与前两个并行运行
+  worker-3:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests colorama
+
+      - name: Run for 5.5 hours
+        run: |
+          echo "开始挖矿 #3 (最多 5.5 小时)"
+          timeout 19800 python3 PC_Miner.py || true
+          echo "本轮结束，等待下一个调度自动运行"
+
+  # 第四个任务，与前三个并行运行
+  worker-4:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests colorama
+
+      - name: Run for 5.5 hours
+        run: |
+          echo "开始挖矿 #4 (最多 5.5 小时)"
+          timeout 19800 python3 PC_Miner.py || true
+          echo "本轮结束，等待下一个调度自动运行"
+
+  # 第五个任务，与前四个并行运行
+  worker-5:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests colorama
+
+      - name: Run for 5.5 hours
+        run: |
+          echo "开始挖矿 #5 (最多 5.5 小时)"
+          timeout 19800 python3 PC_Miner.py || true
+          echo "本轮结束，等待下一个调度自动运行"
