@@ -1,11 +1,10 @@
-name: DuinoCoin WAKUANG 2h MAX
+name: DuinoCoin WAKUANG 2.5h MAX
 
 on:
   schedule:
-    # 每 2.5 小时触发一次（UTC）
-    # 例：00:00, 02:30, 05:00, 07:30, 10:00 ...
-    - cron: "0 */5 * * *"   # 这是每5小时，不是2.5小时
-    - cron: "30 */5 * * *"  # 加上半小时的点
+    # 每 3 小时触发一次（UTC），以实现运行2.5小时 + 30分钟空闲的循环
+    # 例：00:00, 03:00, 06:00, 09:00, 12:00 ...
+    - cron: "0 */3 * * *"
   workflow_dispatch:
 
 jobs:
@@ -25,11 +24,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests colorama
 
-      - name: Run for 2 hours
+      - name: Run for 2.5 hours
         run: |
-          echo "开始挖矿 #1 (最多 2 小时)"
-          timeout 7200 python3 PC_Miner.py || true
-          echo "结束，本轮已运行 2 小时"
+          echo "开始挖矿 #1 (最多 2.5 小时)"
+          timeout 9000 python3 PC_Miner.py || true
+          echo "结束，本轮已运行 2.5 小时"
 
   worker-2:
     runs-on: ubuntu-latest
@@ -42,9 +41,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests colorama
       - run: |
-          echo "开始挖矿 #2 (最多 2 小时)"
-          timeout 7200 python3 PC_Miner.py || true
-          echo "结束，本轮已运行 2 小时"
+          echo "开始挖矿 #2 (最多 2.5 小时)"
+          timeout 9000 python3 PC_Miner.py || true
+          echo "结束，本轮已运行 2.5 小时"
 
   worker-3:
     runs-on: ubuntu-latest
@@ -57,9 +56,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests colorama
       - run: |
-          echo "开始挖矿 #3 (最多 2 小时)"
-          timeout 7200 python3 PC_Miner.py || true
-          echo "结束，本轮已运行 2 小时"
+          echo "开始挖矿 #3 (最多 2.5 小时)"
+          timeout 9000 python3 PC_Miner.py || true
+          echo "结束，本轮已运行 2.5 小时"
 
   worker-4:
     runs-on: ubuntu-latest
@@ -72,9 +71,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests colorama
       - run: |
-          echo "开始挖矿 #4 (最多 2 小时)"
-          timeout 7200 python3 PC_Miner.py || true
-          echo "结束，本轮已运行 2 小时"
+          echo "开始挖矿 #4 (最多 2.5 小时)"
+          timeout 9000 python3 PC_Miner.py || true
+          echo "结束，本轮已运行 2.5 小时"
 
   worker-5:
     runs-on: ubuntu-latest
@@ -87,9 +86,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests colorama
       - run: |
-          echo "开始挖矿 #5 (最多 2 小时)"
-          timeout 7200 python3 PC_Miner.py || true
-          echo "结束，本轮已运行 2 小时"
+          echo "开始挖矿 #5 (最多 2.5 小时)"
+          timeout 9000 python3 PC_Miner.py || true
+          echo "结束，本轮已运行 2.5 小时"
 
   worker-6:
     runs-on: ubuntu-latest
@@ -102,9 +101,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests colorama
       - run: |
-          echo "开始挖矿 #6 (最多 2 小时)"
-          timeout 7200 python3 PC_Miner.py || true
-          echo "结束，本轮已运行 2 小时"
+          echo "开始挖矿 #6 (最多 2.5 小时)"
+          timeout 9000 python3 PC_Miner.py || true
+          echo "结束，本轮已运行 2.5 小时"
 
   worker-7:
     runs-on: ubuntu-latest
@@ -117,6 +116,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests colorama
       - run: |
-          echo "开始挖矿 #7 (最多 2 小时)"
-          timeout 7200 python3 PC_Miner.py || true
-          echo "结束，本轮已运行 2 小时"
+          echo "开始挖矿 #7 (最多 2.5 小时)"
+          timeout 9000 python3 PC_Miner.py || true
+          echo "结束，本轮已运行 2.5 小时"
