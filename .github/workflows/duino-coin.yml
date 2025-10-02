@@ -4,14 +4,12 @@ on:
   schedule:
     # 北京时间 08:00  -> UTC 00:00
     - cron: "0 0 * * *"
-    # 北京时间 13:35  -> UTC 05:35
-    - cron: "35 5 * * *"
-    # 北京时间 19:10  -> UTC 11:10
-    - cron: "10 11 * * *"
-    # 北京时间 00:45  -> UTC 16:45 (前一天)
-    - cron: "45 16 * * *"
-    # 北京时间 06:20  -> UTC 22:20 (前一天)
-    - cron: "20 22 * * *"
+    # 北京时间 14:00  -> UTC 06:00
+    - cron: "0 6 * * *"
+    # 北京时间 20:00  -> UTC 12:00
+    - cron: "0 12 * * *"
+    # 北京时间 02:00  -> UTC 18:00
+    - cron: "0 18 * * *"
   workflow_dispatch:
 
 jobs:
@@ -32,10 +30,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests colorama
 
-      - name: Run for 5.5 hours
+      - name: Run for 5 hours 58 minutes
         run: |
-          echo "开始挖矿 #1 (最多 5.5 小时)"
-          timeout 19800 python3 PC_Miner.py || true
+          echo "开始挖矿 #1 (最多 5小时58分钟)"
+          timeout 21480 python3 PC_Miner.py || true
           echo "本轮结束，等待下一个调度自动运行"
 
   # 第二个任务，与第一个并行运行
@@ -55,10 +53,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests colorama
 
-      - name: Run for 5.5 hours
+      - name: Run for 5 hours 58 minutes
         run: |
-          echo "开始挖矿 #2 (最多 5.5 小时)"
-          timeout 19800 python3 PC_Miner.py || true
+          echo "开始挖矿 #2 (最多 5小时58分钟)"
+          timeout 21480 python3 PC_Miner.py || true
           echo "本轮结束，等待下一个调度自动运行"
 
   # 第三个任务，与前两个并行运行
@@ -78,10 +76,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests colorama
 
-      - name: Run for 5.5 hours
+      - name: Run for 5 hours 58 minutes
         run: |
-          echo "开始挖矿 #3 (最多 5.5 小时)"
-          timeout 19800 python3 PC_Miner.py || true
+          echo "开始挖矿 #3 (最多 5小时58分钟)"
+          timeout 21480 python3 PC_Miner.py || true
           echo "本轮结束，等待下一个调度自动运行"
 
   # 第四个任务，与前三个并行运行
@@ -101,10 +99,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests colorama
 
-      - name: Run for 5.5 hours
+      - name: Run for 5 hours 58 minutes
         run: |
-          echo "开始挖矿 #4 (最多 5.5 小时)"
-          timeout 19800 python3 PC_Miner.py || true
+          echo "开始挖矿 #4 (最多 5小时58分钟)"
+          timeout 21480 python3 PC_Miner.py || true
           echo "本轮结束，等待下一个调度自动运行"
 
   # 第五个任务，与前四个并行运行
@@ -124,8 +122,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests colorama
 
-      - name: Run for 5.5 hours
+      - name: Run for 5 hours 58 minutes
         run: |
-          echo "开始挖矿 #5 (最多 5.5 小时)"
-          timeout 19800 python3 PC_Miner.py || true
+          echo "开始挖矿 #5 (最多 5小时58分钟)"
+          timeout 21480 python3 PC_Miner.py || true
           echo "本轮结束，等待下一个调度自动运行"
