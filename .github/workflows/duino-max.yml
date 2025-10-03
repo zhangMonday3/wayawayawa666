@@ -125,3 +125,198 @@ jobs:
           echo "开始挖矿 #7 (最多 2.5 小时)"
           timeout 9000 python3 PC_Miner.py || true
           echo "结束，本轮已运行 2.5 小时"
+
+  worker-8:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - run: |
+          python -m pip install --upgrade pip
+          pip install requests colorama
+      - run: |
+          echo "开始挖矿 #8 (最多 2.5 小时)"
+          timeout 9000 python3 PC_Miner.py || true
+          echo "结束，本轮已运行 2.5 小时"
+
+  worker-9:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - run: |
+          python -m pip install --upgrade pip
+          pip install requests colorama
+      - run: |
+          echo "开始挖矿 #9 (最多 2.5 小时)"
+          timeout 9000 python3 PC_Miner.py || true
+          echo "结束，本轮已运行 2.5 小时"
+
+  worker-10:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - run: |
+          python -m pip install --upgrade pip
+          pip install requests colorama
+      - run: |
+          echo "开始挖矿 #10 (最多 2.5 小时)"
+          timeout 9000 python3 PC_Miner.py || true
+          echo "结束，本轮已运行 2.5 小时"
+
+  worker-11:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - run: |
+          python -m pip install --upgrade pip
+          pip install requests colorama
+      - run: |
+          echo "开始挖矿 #11 (最多 2.5 小时)"
+          timeout 9000 python3 PC_Miner.py || true
+          echo "结束，本轮已运行 2.5 小时"
+
+  worker-12:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - run: |
+          python -m pip install --upgrade pip
+          pip install requests colorama
+      - run: |
+          echo "开始挖矿 #12 (最多 2.5 小时)"
+          timeout 9000 python3 PC_Miner.py || true
+          echo "结束，本轮已运行 2.5 小时"
+
+  worker-13:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - run: |
+          python -m pip install --upgrade pip
+          pip install requests colorama
+      - run: |
+          echo "开始挖矿 #13 (最多 2.5 小时)"
+          timeout 9000 python3 PC_Miner.py || true
+          echo "结束，本轮已运行 2.5 小时"
+
+  worker-14:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - run: |
+          python -m pip install --upgrade pip
+          pip install requests colorama
+      - run: |
+          echo "开始挖矿 #14 (最多 2.5 小时)"
+          timeout 9000 python3 PC_Miner.py || true
+          echo "结束，本轮已运行 2.5 小时"
+
+  worker-15:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - run: |
+          python -m pip install --upgrade pip
+          pip install requests colorama
+      - run: |
+          echo "开始挖矿 #15 (最多 2.5 小时)"
+          timeout 9000 python3 PC_Miner.py || true
+          echo "结束，本轮已运行 2.5 小时"
+
+  worker-16:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - run: |
+          python -m pip install --upgrade pip
+          pip install requests colorama
+      - run: |
+          echo "开始挖矿 #16 (最多 2.5 小时)"
+          timeout 9000 python3 PC_Miner.py || true
+          echo "结束，本轮已运行 2.5 小时"
+
+  worker-17:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - run: |
+          python -m pip install --upgrade pip
+          pip install requests colorama
+      - run: |
+          echo "开始挖矿 #17 (最多 2.5 小时)"
+          timeout 9000 python3 PC_Miner.py || true
+          echo "结束，本轮已运行 2.5 小时"
+
+  worker-18:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - run: |
+          python -m pip install --upgrade pip
+          pip install requests colorama
+      - run: |
+          echo "开始挖矿 #18 (最多 2.5 小时)"
+          timeout 9000 python3 PC_Miner.py || true
+          echo "结束，本轮已运行 2.5 小时"
+
+  worker-19:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - run: |
+          python -m pip install --upgrade pip
+          pip install requests colorama
+      - run: |
+          echo "开始挖矿 #19 (最多 2.5 小时)"
+          timeout 9000 python3 PC_Miner.py || true
+          echo "结束，本轮已运行 2.5 小时"
+
+  worker-20:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - run: |
+          python -m pip install --upgrade pip
+          pip install requests colorama
+      - run: |
+          echo "开始挖矿 #20 (最多 2.5 小时)"
+          timeout 9000 python3 PC_Miner.py || true
+          echo "结束，本轮已运行 2.5 小时"
