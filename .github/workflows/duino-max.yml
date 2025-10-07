@@ -242,18 +242,3 @@ jobs:
           echo "开始挖矿 #14 (1小时)"
           timeout 3600 python3 PC_Miner.py || true
           echo "结束，本轮已运行 1 小时"
-
-  worker-15:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.x"
-      - run: |
-          python -m pip install --upgrade pip
-          pip install requests colorama
-      - run: |
-          echo "开始挖矿 #15 (1小时)"
-          timeout 3600 python3 PC_Miner.py || true
-          echo "结束，本轮已运行 1 小时"
