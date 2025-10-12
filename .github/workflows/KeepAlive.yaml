@@ -28,7 +28,7 @@ jobs:
       - name: 添加上游仓库
         run: |
           if ! git remote | grep -q upstream; then
-            git remote add upstream https://github.com/zhangMonday3/wayawayawa.git
+            git remote add upstream https://github.com/zhangMonday3/wayawayawa666.git
           fi
 
       - name: 获取更新代码
